@@ -12,7 +12,7 @@ public class RentalAgreement {
     @NotNull(message = "Number of rentals days is required")
     @Min(value = 1, message="Number of rental days must be 1 or greater")
     @Max(value = 100, message = "Number of rental days must be less than or equal to 100")
-    private int totalRentalDays;
+    private Integer totalRentalDays;
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yy")
     private LocalDate checkoutDate;
@@ -22,18 +22,18 @@ public class RentalAgreement {
     @NotNull(message = "Discount is required")
     @Min(value = 0, message = "Discount must be 0% or greater")
     @Max(value = 100, message = "Discount must be 100% or less")
-    private float discount;
+    private Float discount;
     private float preDiscountPrice;
     private float moneySaved;
     private float totalPrice;
 
     public RentalAgreement(){}
 
-    public int getTotalRentalDays() {
+    public Integer getTotalRentalDays() {
         return totalRentalDays;
     }
 
-    public void settotalRentalDays(int totalRentalDays) {
+    public void settotalRentalDays(Integer totalRentalDays) {
         this.totalRentalDays = totalRentalDays;
     }
 
@@ -85,11 +85,11 @@ public class RentalAgreement {
         this.totalPrice = totalPrice;
     }
 
-    public float getDiscount() {
+    public Float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(Float discount) {
         this.discount = discount;
     }
 

@@ -1,10 +1,7 @@
 package com.toolShop.cache;
 
-import jakarta.validation.constraints.NotNull;
-
 //The base tools class
 public class Tool {
-    @NotNull
     private String toolCode;
     private String toolType;
     private String brand;
