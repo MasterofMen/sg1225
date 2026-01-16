@@ -27,12 +27,15 @@ public class ToolApi {
     @Autowired
     ToolService toolService;
 
+    // GET endpoint that returns a list of all available tool codes
     @GetMapping
     public List<String> listTools(){
         return toolService.getAllTools();
     }
-    // The rental tool api call. 
-    @PostMapping("/rental/{toolCode}")
+    // POST endpoint to rent a tool
+    // Takes a rental request body and tool code as path parameter
+    // Returns the completed rental agreement with calculated prices and dates
+    // Returns BAD_REQUEST if validation fails or if illegal argument is thrown
     public ResponseEntity<?> rentTool(@Valid @RequestBody RentalAgreement rentalRequest, @PathVariable String toolCode){
         try{
             RentalAgreement ra = toolService.rentTool(rentalRequest, toolCode);
@@ -44,8 +47,12 @@ public class ToolApi {
         }
     }
 
+    // Exception handler for validation errors
+    // When input validation fails, this method formats all validation errors into a single message
+    // and returns them to the client as a BAD_REQUEST response
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidation(MethodArgumentNotValidException ex){
+        // Combine all field validation errors into a single string with field names and error messages
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
                 .collect(Collectors.joining("; "));

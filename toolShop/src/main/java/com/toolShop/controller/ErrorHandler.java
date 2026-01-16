@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ErrorHandler {
 
+    // Handles IllegalArgumentException errors (when validation fails)
+    // Returns a BAD_REQUEST response with the error message
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String,String>> handleBadArg(IllegalArgumentException ex) {
         return ResponseEntity
@@ -19,8 +21,12 @@ public class ErrorHandler {
                 .body(Map.of("error", ex.getMessage()));
     }
 
+    // Handles validation errors when input data doesn't meet requirements
+    // Formats all field validation errors into a readable message
+    // Returns a BAD_REQUEST response with all error details
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidation(MethodArgumentNotValidException ex) {
+        // Combine all field validation errors into a single string
         String msg = ex.getBindingResult().getFieldErrors().stream()
                 .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
                 .collect(Collectors.joining("; "));
@@ -29,6 +35,8 @@ public class ErrorHandler {
                 .body(Map.of("error", msg));
     }
 
+    // Handles all other unexpected exceptions
+    // Returns an INTERNAL_SERVER_ERROR response with a generic error message
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String,String>> handleOther(Exception ex) {
         return ResponseEntity
