@@ -140,21 +140,6 @@ curl -X POST http://localhost:8080/api/tools/rental/CHNS \
      }
      ```
 
-## Available Tools
-
-| Code | Tool Type  | Brand  | Daily Charge | Weekday | Weekend | Holiday |
-|------|-----------|--------|--------------|---------|---------|---------|
-| CHNS | Chainsaw  | Stihl  | $1.99        | Yes     | No      | Yes     |
-| LADW | Ladder    | Werner | $1.49        | Yes     | Yes     | No      |
-| JAKD | Jackhammer| DeWalt | $2.99        | Yes     | No      | No      |
-| JAKR | Jackhammer| Ridgid | $2.99        | Yes     | No      | No      |
-
-## Holiday Observance
-
-The system recognizes the following holidays:
-- **Independence Day**: July 4th (or observed date if it falls on a weekend)
-- **Labor Day**: First Monday in September
-
 ## Validation Rules
 
 - Total rental days must be between 1 and 100
