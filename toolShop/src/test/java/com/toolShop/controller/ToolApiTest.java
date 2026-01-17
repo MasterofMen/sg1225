@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.toolShop.cache.RentalAgreement;
-import com.toolShop.constant.Constants;
 import com.toolShop.services.ToolService;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,12 +37,8 @@ public class ToolApiTest {
 
         when(toolService.rentTool(any(), eq("JAKR"))).thenThrow(new IllegalArgumentException("Discount must be between 0 and 100"));
 
-        ResponseEntity<?> resp = toolApi.rentTool(ra, "JAKR");
-        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-        assertTrue(resp.getBody() instanceof java.util.Map);
-        @SuppressWarnings("unchecked")
-        java.util.Map<String,String> map = (java.util.Map<String,String>) resp.getBody();
-        assertEquals("Discount must be between 0 and 100", map.get("error"));
+        // Exception is handled by ErrorHandler, so we expect it to be thrown
+        assertThrows(IllegalArgumentException.class, () -> toolApi.rentTool(ra, "JAKR"));
     }
 
     @Test
@@ -179,12 +173,7 @@ public class ToolApiTest {
 
         when(toolService.rentTool(ra, "BAD")).thenThrow(new RuntimeException("bad"));
 
-        ResponseEntity<?> resp = toolApi.rentTool(ra, "BAD");
-        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-        assertNotNull(resp.getBody());
-        assertTrue(resp.getBody() instanceof java.util.Map);
-        @SuppressWarnings("unchecked")
-        java.util.Map<String,String> map = (java.util.Map<String,String>) resp.getBody();
-        assertEquals("Invalid request", map.get("error"));
+        // Exception is now handled by ErrorHandler, so we expect it to be thrown
+        assertThrows(RuntimeException.class, () -> toolApi.rentTool(ra, "BAD"));
     }
 }
